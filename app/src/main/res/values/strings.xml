@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ActiveWindows</string>
+    <string name="Window_command_open">Open Window</string>
+    <string name="Window_command_close">Close Window</string>
+    <string name="Window_command_crack">Crack Window</string>
+    <color name="darkgray">#576176</color>
+    <color name="lightblue">#0487b8</color>
+</resources>
