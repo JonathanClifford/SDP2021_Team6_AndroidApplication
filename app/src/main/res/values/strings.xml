@@ -1,8 +1,37 @@
+<!--
+   N.B. This file consists of all the strings that will show up on the UI.
+-->
 <resources>
     <string name="app_name">ActiveWindows</string>
+    <!--
+    The following consist of various strings that I use to recognize each of the blocks
+    -->
+
     <string name="Window_command_open">Open Window</string>
     <string name="Window_command_close">Close Window</string>
     <string name="Window_command_crack">Crack Window</string>
-    <color name="darkgray">#576176</color>
-    <color name="lightblue">#0487b8</color>
+    <color name="darkgray">#555556</color>  <!-- Used as background for the app. TODO Will change-->
+    <color name="lightblue">#0487b8</color> <!-- Used as background for buttons -->
+    <color name="red">#930404</color>
+    <color name="background">#cfcdcd</color>
+    <!--
+    The following is used to help create the spinner and all of its subcomponents
+    Note as well that this can be expanded on to add more windows as needed. There
+    is likely a way to automise this process, but for prototyping I am only creating
+    2 windows in the Drop Down list.
+    -->
+    <string-array name="names">
+        <item>
+            Please Select Your Window
+        </item>
+
+        <item>
+            Window #1
+        </item>
+
+        <item>
+            Window #2
+        </item>
+
+    </string-array>
 </resources>
