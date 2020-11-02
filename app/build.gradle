@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -12,7 +13,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // Enable multidex support (if supporting min SDK < 21)
+        //multiDexEnabled true
+
     }
+//    compileOptions { // for aws
+//        // Support for Java 8 features
+//        coreLibraryDesugaringEnabled true
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
     buildTypes {
         release {
@@ -29,5 +39,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.19.0' //AWS IoT core dependency
+    implementation 'com.amazonaws:aws-android-sdk-iot:2.19.0' //AWS IoT core dependency
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.19.0' //AWS IoT core dependency
+//    implementation 'com.amazonaws:aws-android-sdk-ddb:2.19.0' //AWS IoT core dependency
+//    implementation 'com.amazonaws:aws-android-sdk-ddb-document:2.19.0' //AWS IoT core dependency
+//    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.19.0' //AWS IoT core dependency
+    implementation fileTree(dir: 'libs', include: ['*.aar']) // For AWS SDK Libraries
 
+
+//    // Amplify core dependency
+//    implementation 'com.amplifyframework:core:1.4.0'
+//
+//    // Multidex dependency (if supporting min SDK < 21)
+//    implementation 'androidx.multidex:multidex:2.0.1'
+//
+//    // Support for Java 8 features
+//    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }
