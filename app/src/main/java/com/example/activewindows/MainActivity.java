@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // CREATE INFORMATION FOR AWS.
     //______________________________________________________________________________________________
     // AWS - for AWS Thing (ActiveWindowsAndroidApp thing)
-    public static final String CUSTOMER_SPECIFIC_ENDPOINT = "aga9o21zvh26x-ats.iot.us-east-1.amazonaws.com";
+    private static final String CUSTOMER_SPECIFIC_ENDPOINT = "aga9o21zvh26x-ats.iot.us-east-1.amazonaws.com";
     // For the COGNITO roles that we are using (Cognito_ActiveWindowsIoTAuth_Role / unauth)
-    public static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
+    private static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
     // AWS Region
-    public static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
+    private static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
     public AWSIotMqttManager mqttManager; // manager for MQTT
     public String clientId; // Client ID, since this needs to be unique for the users, we will be using it.
     public CognitoCachingCredentialsProvider credentialsProvider; //For credentials to connect to AWS

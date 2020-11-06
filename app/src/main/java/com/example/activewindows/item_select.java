@@ -57,14 +57,15 @@ public class item_select extends AppCompatActivity {
     Button closeWindow;
     TextView currentStatus;
     TextView latestMessage;
+    Button checkStatus;
     // CREATE INFORMATION FOR AWS.
     //______________________________________________________________________________________________
     // AWS - for AWS Thing (ActiveWindowsAndroidApp thing)
-    public static final String CUSTOMER_SPECIFIC_ENDPOINT = "aga9o21zvh26x-ats.iot.us-east-1.amazonaws.com";
+    private static final String CUSTOMER_SPECIFIC_ENDPOINT = "aga9o21zvh26x-ats.iot.us-east-1.amazonaws.com";
     // For the COGNITO roles that we are using (Cognito_ActiveWindowsIoTAuth_Role / unauth)
-    public static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
+    private static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
     // AWS Region
-    public static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
+    private static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
     public AWSIotMqttManager mqttManager; // manager for MQTT
     public String clientId; // Client ID, since this needs to be unique for the users, we will be using it.
     public CognitoCachingCredentialsProvider credentialsProvider; //For credentials to connect to AWS
@@ -79,10 +80,15 @@ public class item_select extends AppCompatActivity {
         //Select buttons and recognize them for later on.
         back = findViewById(R.id.TestButton);
         openWindow = findViewById(R.id.OpenWindowButton); // make it the open window button
+        openWindow.setOnClickListener(pubOpenClick); //call clicker
         crackWindow = findViewById(R.id.CrackWindowButton);
+        crackWindow.setOnClickListener(pubCrackClick); //call clicker
         closeWindow = findViewById(R.id.CloseWindowButton);
+        closeWindow.setOnClickListener(pubCloseClick); //call clicker
         currentStatus = (TextView) findViewById(R.id.currentStatusView2);
         latestMessage = (TextView) findViewById(R.id.latestMessage);
+        checkStatus = findViewById(R.id.statusBelowMe); // button
+        checkStatus.setOnClickListener(subscribeClick); //call status
 
         clientId = UUID.randomUUID().toString();
         // Initialize the AWS Cognito credentials provider
@@ -137,8 +143,7 @@ public class item_select extends AppCompatActivity {
 
         //__________________________________________________________________________________________
         // Publish and subscribe to topics.
-        final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
-        final String topic_pub = "windowCommandTopic"; //THIS IS THE TOPIC WE WILL PUBLISH TO
+        //final String topic_pub = "windowCommandTopic"; //THIS IS THE TOPIC WE WILL PUBLISH TO
         //__________________________________________________________________________________________
 
 
@@ -147,9 +152,9 @@ public class item_select extends AppCompatActivity {
 
 
 
+        //__________________________________________________________________________________________
 
-
-        //_________________________________________________________________________________________
+        //__________________________________________________________________________________________
         // Set button clickers.
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -166,7 +171,7 @@ public class item_select extends AppCompatActivity {
                 //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
                 String command = "Open Window";
                 Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-
+                openWindow.setOnClickListener(pubOpenClick);
             }
         });
 
@@ -178,7 +183,7 @@ public class item_select extends AppCompatActivity {
                 //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
                 String command = "Crack Window";
                 Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-
+                crackWindow.setOnClickListener(pubCrackClick);
             }
         });
 
@@ -190,9 +195,95 @@ public class item_select extends AppCompatActivity {
                 //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
                 String command = "Close Window";
                 Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-
+                closeWindow.setOnClickListener(pubCloseClick);
             }
         });
 
     }
+    //__________________________________________________________________________________________
+    // Subscribe to the topic
+    View.OnClickListener subscribeClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
+
+            Log.d(LOG_TAG, "topic = " + topic_sub);
+
+            try {
+                mqttManager.subscribeToTopic(topic_sub, AWSIotMqttQos.QOS0,
+                        new AWSIotMqttNewMessageCallback() {
+                            @Override
+                            public void onMessageArrived(final String topic, final byte[] data) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            String message = new String(data, "UTF-8");
+                                            Log.d(LOG_TAG, "Message arrived:");
+                                            Log.d(LOG_TAG, "   Topic: " + topic);
+                                            Log.d(LOG_TAG, " Message: " + message);
+
+                                            latestMessage.setText(message);
+
+                                        } catch (UnsupportedEncodingException e) {
+                                            Log.e(LOG_TAG, "Message encoding error.", e);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Subscription error.", e);
+            }
+        }
+    };
+
+    View.OnClickListener pubOpenClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            final String topic_pub = "windowCommandTopic";
+            final String msg = "Open 100%"; //% open
+
+            try {
+                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Publish error.", e);
+            }
+
+        }
+    };
+
+    View.OnClickListener pubCrackClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            final String topic_pub = "windowCommandTopic";
+            final String msg = "Open 50%"; //% open
+
+            try {
+                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Publish error.", e);
+            }
+
+        }
+    };
+
+    View.OnClickListener pubCloseClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            final String topic_pub = "windowCommandTopic";
+            final String msg = "Open 0%"; //% open
+
+            try {
+                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Publish error.", e);
+            }
+
+        }
+    };
 }
