@@ -65,7 +65,7 @@ public class item_select extends AppCompatActivity {
     // For the COGNITO roles that we are using (Cognito_ActiveWindowsIoTAuth_Role / unauth)
     private static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
     // AWS Region
-    private static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
+    private static final Regions MY_REGION = Regions.US_EAST_1;
     public AWSIotMqttManager mqttManager; // manager for MQTT
     public String clientId; // Client ID, since this needs to be unique for the users, we will be using it.
     public CognitoCachingCredentialsProvider credentialsProvider; //For credentials to connect to AWS
@@ -168,9 +168,9 @@ public class item_select extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
+
                 String command = "Open Window";
-                Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
                 openWindow.setOnClickListener(pubOpenClick);
             }
         });
@@ -180,9 +180,9 @@ public class item_select extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
+
                 String command = "Crack Window";
-                Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
                 crackWindow.setOnClickListener(pubCrackClick);
             }
         });
@@ -192,9 +192,9 @@ public class item_select extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //TODO: SEND THIS DATA TO THE TOPIC TO OPEN THE WINDOW!
+
                 String command = "Close Window";
-                Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
                 closeWindow.setOnClickListener(pubCloseClick);
             }
         });
@@ -244,7 +244,7 @@ public class item_select extends AppCompatActivity {
         public void onClick(View v) {
 
             final String topic_pub = "windowCommandTopic";
-            final String msg = "Open 100%"; //% open
+            final String msg = "Window #1: Open 100%"; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -260,7 +260,7 @@ public class item_select extends AppCompatActivity {
         public void onClick(View v) {
 
             final String topic_pub = "windowCommandTopic";
-            final String msg = "Open 50%"; //% open
+            final String msg = "Window #1: Open 50%"; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -276,7 +276,7 @@ public class item_select extends AppCompatActivity {
         public void onClick(View v) {
 
             final String topic_pub = "windowCommandTopic";
-            final String msg = "Open 0%"; //% open
+            final String msg = "Window #1: Open 0%"; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
