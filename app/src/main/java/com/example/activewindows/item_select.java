@@ -3,6 +3,7 @@ package com.example.activewindows;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,8 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 import com.amazonaws.regions.Regions;
 
+import com.google.android.material.slider.Slider;
+
 
 // This file is dedicated to essentially loading another activity (Think of it as another class)
 // That will load the data for the specific window and send the data to AWS.
@@ -58,6 +61,10 @@ public class item_select extends AppCompatActivity {
     TextView currentStatus;
     TextView latestMessage;
     Button checkStatus;
+
+    Slider messageSlider;
+    float openPercent;
+    Button sendCommand;
     // CREATE INFORMATION FOR AWS.
     //______________________________________________________________________________________________
     // AWS - for AWS Thing (ActiveWindowsAndroidApp thing)
@@ -79,16 +86,17 @@ public class item_select extends AppCompatActivity {
 
         //Select buttons and recognize them for later on.
         back = findViewById(R.id.TestButton);
-        openWindow = findViewById(R.id.OpenWindowButton); // make it the open window button
-        openWindow.setOnClickListener(pubOpenClick); //call clicker
-        crackWindow = findViewById(R.id.CrackWindowButton);
-        crackWindow.setOnClickListener(pubCrackClick); //call clicker
-        closeWindow = findViewById(R.id.CloseWindowButton);
-        closeWindow.setOnClickListener(pubCloseClick); //call clicker
         currentStatus = (TextView) findViewById(R.id.currentStatusView2);
         latestMessage = (TextView) findViewById(R.id.latestMessage);
         checkStatus = findViewById(R.id.statusBelowMe); // button
         checkStatus.setOnClickListener(subscribeClick); //call status
+
+
+        messageSlider = findViewById(R.id.slider); //steps of 5 for commands to the window.
+        sendCommand = findViewById(R.id.sendSliderCommandButton); //AWS sends command to button
+        sendCommand.setOnClickListener(pubSendCommand); //Call Clicker
+
+
 
         clientId = UUID.randomUUID().toString();
         // Initialize the AWS Cognito credentials provider
@@ -156,6 +164,19 @@ public class item_select extends AppCompatActivity {
 
         //__________________________________________________________________________________________
         // Set button clickers.
+
+
+        sendCommand.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
+                sendCommand.setOnClickListener(pubSendCommand);
+            }
+        });
+
+
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(item_select.this, MainActivity.class);
@@ -163,41 +184,7 @@ public class item_select extends AppCompatActivity {
             }
         });
 
-        openWindow.setOnClickListener(new View.OnClickListener() {
 
-
-            @Override
-            public void onClick(View v) {
-
-                String command = "Open Window";
-                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-                openWindow.setOnClickListener(pubOpenClick);
-            }
-        });
-
-        crackWindow.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-
-                String command = "Crack Window";
-                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-                crackWindow.setOnClickListener(pubCrackClick);
-            }
-        });
-
-        closeWindow.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-
-                String command = "Close Window";
-                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-                closeWindow.setOnClickListener(pubCloseClick);
-            }
-        });
 
     }
     //__________________________________________________________________________________________
@@ -239,12 +226,15 @@ public class item_select extends AppCompatActivity {
         }
     };
 
-    View.OnClickListener pubOpenClick = new View.OnClickListener() {
+    // to send the command to AWS:
+    View.OnClickListener pubSendCommand = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             final String topic_pub = "windowCommandTopic";
-            final String msg = "Window #1: Open 100%"; //% open
+            final float currentPercentage = messageSlider.getValue();
+            final String percentageString = Float.toString(currentPercentage); // convert to string
+            final String msg = "Window #1: " + percentageString; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -255,35 +245,5 @@ public class item_select extends AppCompatActivity {
         }
     };
 
-    View.OnClickListener pubCrackClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
 
-            final String topic_pub = "windowCommandTopic";
-            final String msg = "Window #1: Open 50%"; //% open
-
-            try {
-                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Publish error.", e);
-            }
-
-        }
-    };
-
-    View.OnClickListener pubCloseClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            final String topic_pub = "windowCommandTopic";
-            final String msg = "Window #1: Open 0%"; //% open
-
-            try {
-                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Publish error.", e);
-            }
-
-        }
-    };
 }
