@@ -16,22 +16,25 @@
         android:value="0"
         android:valueFrom="0"
         android:valueTo="100"
+        app:haloColor="@color/darkgray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09">
+        app:layout_constraintVertical_bias="0.105"
+        app:tickColor="@color/darkgray"
+        app:tickColorActive="@color/red">
 
     </com.google.android.material.slider.Slider>
 
     <Button
         android:id="@+id/sendSliderCommandButton"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_width="302dp"
+        android:layout_height="68dp"
         android:layout_marginBottom="496dp"
-        android:background="#FF1A1A"
         android:text="Send Command"
+        app:backgroundTint="@color/darkgray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -42,7 +45,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="136dp"
-        android:background="@color/red"
+        android:backgroundTint="@color/red"
         android:text="Go Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +84,7 @@
         android:id="@+id/latestMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="292dp"
+        android:layout_marginBottom="328dp"
         android:text="No Current Status"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,13 +92,13 @@
 
     <Button
         android:id="@+id/statusBelowMe"
-        android:layout_width="416dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="348dp"
+        android:layout_width="407dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="388dp"
+        android:backgroundTint="@color/lightblue"
         android:text="Current Status:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

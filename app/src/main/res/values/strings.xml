@@ -6,7 +6,7 @@
     <!--
     The following consist of various strings that I use to recognize each of the blocks
     -->
-
+    <color name="newPrimary">#555556</color>
     <string name="Window_command_open">Open Window</string>
     <string name="Window_command_close">Close Window</string>
     <string name="Window_command_crack">Crack Window</string>
