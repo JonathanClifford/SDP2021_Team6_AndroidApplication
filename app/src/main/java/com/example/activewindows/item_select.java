@@ -55,15 +55,11 @@ public class item_select extends AppCompatActivity {
     // It would be straightforward to implement but for testing this is the most straightforward.
 
     // Select all of the buttons and instantiate them as existing.
-    Button openWindow;
-    Button crackWindow;
-    Button closeWindow;
     TextView currentStatus;
     TextView latestMessage;
     Button checkStatus;
 
     Slider messageSlider;
-    float openPercent;
     Button sendCommand;
     // CREATE INFORMATION FOR AWS.
     //______________________________________________________________________________________________
@@ -153,15 +149,6 @@ public class item_select extends AppCompatActivity {
         // Publish and subscribe to topics.
         //final String topic_pub = "windowCommandTopic"; //THIS IS THE TOPIC WE WILL PUBLISH TO
         //__________________________________________________________________________________________
-
-
-
-
-
-
-
-        //__________________________________________________________________________________________
-
         //__________________________________________________________________________________________
         // Set button clickers.
 

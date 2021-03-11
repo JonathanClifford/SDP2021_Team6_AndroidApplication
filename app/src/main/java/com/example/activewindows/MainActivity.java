@@ -229,11 +229,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
 
             //This statement will ensure that it goes to the next Activity, which is item_select.java.
-            if(parent.getItemAtPosition(position).equals("Window #1"))
+            if(parent.getItemAtPosition(position).equals("Window #1 - AWS"))
             {
                 // Basically when this is selected, and its window 1, we are now going to load the other
                 // Activity. This other activity will handle sending the data.
                 Intent intent = new Intent(MainActivity.this, item_select.class);
+                startActivity(intent);
+            }
+
+            if (parent.getItemAtPosition(position).equals("Window #1 - TCP/IP")) {
+                // open TCP/IP class.
+                Intent intent = new Intent(MainActivity.this, tcpip_select.class);
                 startActivity(intent);
             }
         }
