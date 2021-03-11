@@ -152,18 +152,10 @@ public class item_select extends AppCompatActivity {
         //__________________________________________________________________________________________
         // Set button clickers.
 
+        // First, send an immediate message to AWS requesting a current Status update
+        initializeStatusUpdate();
 
-        sendCommand.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(item_select.this, command, Toast.LENGTH_SHORT).show();
-                sendCommand.setOnClickListener(pubSendCommand);
-            }
-        });
-
-
+        // Back Button Command
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(item_select.this, MainActivity.class);
@@ -174,6 +166,31 @@ public class item_select extends AppCompatActivity {
 
 
     }
+
+    // _____________________________________________________________________________________________
+    // This runs on startup, basically it'll request the NMC to send an immediate status update.
+    private void initializeStatusUpdate() {
+        try
+        {
+            Thread.sleep(700); // Put this here because it needs some sort of a delay.
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+
+        final String topic_pub = "windowCommandTopic";
+        final String msg = "Window #1: STATUS"; //% open
+
+        try {
+            mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Publish error.", e);
+        }
+
+    }
+
+
     //__________________________________________________________________________________________
     // Subscribe to the topic
     View.OnClickListener subscribeClick = new View.OnClickListener() {
