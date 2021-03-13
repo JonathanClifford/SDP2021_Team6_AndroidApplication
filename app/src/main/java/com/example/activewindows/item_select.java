@@ -40,6 +40,7 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 import com.amazonaws.regions.Regions;
 
 import com.google.android.material.slider.Slider;
+import android.os.Handler; // periodic task for checking for updates from AWS every few secs.
 
 
 // This file is dedicated to essentially loading another activity (Think of it as another class)
@@ -85,7 +86,7 @@ public class item_select extends AppCompatActivity {
         currentStatus = (TextView) findViewById(R.id.currentStatusView2);
         latestMessage = (TextView) findViewById(R.id.latestMessage);
         checkStatus = findViewById(R.id.statusBelowMe); // button
-        checkStatus.setOnClickListener(subscribeClick); //call status
+        //checkStatus.setOnClickListener(subscribeClick); //call status DEPRECATED
 
 
         messageSlider = findViewById(R.id.slider); //steps of 5 for commands to the window.
@@ -147,10 +148,57 @@ public class item_select extends AppCompatActivity {
 
         //__________________________________________________________________________________________
         // Publish and subscribe to topics.
-        //final String topic_pub = "windowCommandTopic"; //THIS IS THE TOPIC WE WILL PUBLISH TO
         //__________________________________________________________________________________________
         //__________________________________________________________________________________________
         // Set button clickers.
+
+
+
+        //__________________________________________________________________________________________
+        // Run a periodic task so that the status will be auto updated without the users intervention
+        final Handler autoCheck = new Handler();
+
+        Runnable autoCheckStatus = new Runnable() {
+            @Override
+            public void run() {
+                final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
+
+                Log.d(LOG_TAG, "topic = " + topic_sub);
+
+                try {
+                    mqttManager.subscribeToTopic(topic_sub, AWSIotMqttQos.QOS0,
+                            new AWSIotMqttNewMessageCallback() {
+                                @Override
+                                public void onMessageArrived(final String topic, final byte[] data) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                String message = new String(data, "UTF-8");
+                                                Log.d(LOG_TAG, "Message arrived:");
+                                                Log.d(LOG_TAG, "   Topic: " + topic);
+                                                Log.d(LOG_TAG, " Message: " + message);
+
+                                                latestMessage.setText(message);
+
+                                            } catch (UnsupportedEncodingException e) {
+                                                Log.e(LOG_TAG, "Message encoding error.", e);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Subscription error.", e);
+                }
+                autoCheck.postDelayed(this, 2000);
+            }
+
+        };
+        autoCheck.post(autoCheckStatus);
+
+
+        //__________________________________________________________________________________________
 
         // First, send an immediate message to AWS requesting a current Status update
         initializeStatusUpdate();
@@ -165,22 +213,20 @@ public class item_select extends AppCompatActivity {
 
 
 
+
     }
 
     // _____________________________________________________________________________________________
     // This runs on startup, basically it'll request the NMC to send an immediate status update.
     private void initializeStatusUpdate() {
-        try
-        {
+        try {
             Thread.sleep(700); // Put this here because it needs some sort of a delay.
-        }
-        catch(InterruptedException ex)
-        {
+        } catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
 
         final String topic_pub = "windowCommandTopic";
-        final String msg = "Window #1: STATUS"; //% open
+        final String msg = "Window #1: STATUS"; //Send an immediate status update so the user can see whats going on
 
         try {
             mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -190,45 +236,46 @@ public class item_select extends AppCompatActivity {
 
     }
 
-
+    // THIS IS DEPRECATED! I AM ONLY KEEPING THIS HERE FR REFERENCE! THE ABOVE HANDLER FIXES THIS
+    // PROBLEM ENTIRELY!
     //__________________________________________________________________________________________
     // Subscribe to the topic
-    View.OnClickListener subscribeClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
-
-            Log.d(LOG_TAG, "topic = " + topic_sub);
-
-            try {
-                mqttManager.subscribeToTopic(topic_sub, AWSIotMqttQos.QOS0,
-                        new AWSIotMqttNewMessageCallback() {
-                            @Override
-                            public void onMessageArrived(final String topic, final byte[] data) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            String message = new String(data, "UTF-8");
-                                            Log.d(LOG_TAG, "Message arrived:");
-                                            Log.d(LOG_TAG, "   Topic: " + topic);
-                                            Log.d(LOG_TAG, " Message: " + message);
-
-                                            latestMessage.setText(message);
-
-                                        } catch (UnsupportedEncodingException e) {
-                                            Log.e(LOG_TAG, "Message encoding error.", e);
-                                        }
-                                    }
-                                });
-                            }
-                        });
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Subscription error.", e);
-            }
-        }
-    };
+//    View.OnClickListener subscribeClick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//            final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
+//
+//            Log.d(LOG_TAG, "topic = " + topic_sub);
+//
+//            try {
+//                mqttManager.subscribeToTopic(topic_sub, AWSIotMqttQos.QOS0,
+//                        new AWSIotMqttNewMessageCallback() {
+//                            @Override
+//                            public void onMessageArrived(final String topic, final byte[] data) {
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        try {
+//                                            String message = new String(data, "UTF-8");
+//                                            Log.d(LOG_TAG, "Message arrived:");
+//                                            Log.d(LOG_TAG, "   Topic: " + topic);
+//                                            Log.d(LOG_TAG, " Message: " + message);
+//
+//                                            latestMessage.setText(message);
+//
+//                                        } catch (UnsupportedEncodingException e) {
+//                                            Log.e(LOG_TAG, "Message encoding error.", e);
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        });
+//            } catch (Exception e) {
+//                Log.e(LOG_TAG, "Subscription error.", e);
+//            }
+//        }
+//    };
 
     // to send the command to AWS:
     View.OnClickListener pubSendCommand = new View.OnClickListener() {
@@ -248,6 +295,8 @@ public class item_select extends AppCompatActivity {
 
         }
     };
+
+
 
 
 }
