@@ -150,7 +150,13 @@ public class item_select extends AppCompatActivity {
         // Publish and subscribe to topics.
         //__________________________________________________________________________________________
         //__________________________________________________________________________________________
-        // Set button clickers.
+
+        // Window commands are of two specific varities for format, always having 2 colons for
+        // Delimitters between the messages
+        // WINDOWX:COMMAND:PERCENT
+        // Our case we have two commands that we are sending to the NMC:
+        // Window1:GetStatus:0
+        // Window1:Operate:100.0 where the last val is the percent.
 
 
 
@@ -226,7 +232,7 @@ public class item_select extends AppCompatActivity {
         }
 
         final String topic_pub = "windowCommandTopic";
-        final String msg = "Window #1: STATUS"; //Send an immediate status update so the user can see whats going on
+        final String msg = "Window #1:GetStatus:0.0"; //Send an immediate status update so the user can see whats going on
 
         try {
             mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -284,8 +290,16 @@ public class item_select extends AppCompatActivity {
 
             final String topic_pub = "windowCommandTopic";
             final float currentPercentage = messageSlider.getValue();
-            final String percentageString = Float.toString(currentPercentage); // convert to string
-            final String msg = "Window #1: " + percentageString; //% open
+            String percentageString = null;
+
+            if (currentPercentage != 0){
+                percentageString = Float.toString(currentPercentage);
+            }
+            else {
+                percentageString = "0.0";
+            }
+
+            final String msg = "Window1:" + "Operate:" + percentageString; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
