@@ -77,7 +77,6 @@ import com.amazonaws.regions.Regions;
 // _________________________________________________________________________________________
 
 
-
 //_____________________________________________________________________________________________
 // To whom it may concern, this line is the equivalent of the Main file in a Java/C/C++/Python File.
 // Normally there is no 'Implements AdapterView' section, but this is here to help implement our
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // For the COGNITO roles that we are using (Cognito_ActiveWindowsIoTAuth_Role / unauth)
     private static final String COGNITO_POOL_ID = "us-east-1:a2ebd097-89fc-44a3-9cda-c0dcdac34457";
     // AWS Region
-    private static final Regions MY_REGION = Regions.US_EAST_1; // TODO Note these are originally private
+    private static final Regions MY_REGION = Regions.US_EAST_1;
     public AWSIotMqttManager mqttManager; // manager for MQTT
     public String clientId; // Client ID, since this needs to be unique for the users, we will be using it.
     public CognitoCachingCredentialsProvider credentialsProvider; //For credentials to connect to AWS
@@ -112,10 +111,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //SET UP MORE INFORMATION FOR AWS.
         //_________________________________________________________________________________________
-        // MQTT client IDs are required to be unique per AWS IoT account.
-        // This UUID is "practically unique" but does not _guarantee_
-        // uniqueness.
-        //clientId = UUID.randomUUID().toString();
 
         // MQTT client IDs are required to be unique per AWS IoT account.
         // This UUID is "practically unique" but does not _guarantee_
@@ -170,10 +165,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Log.e(LOG_TAG, "Connection error.", e);
             currentStatus.setText("Error! " + e.getMessage());
         }
-
-
-
-
 
 
         // ________________________________________________________________________________________

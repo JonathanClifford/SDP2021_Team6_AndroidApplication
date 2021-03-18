@@ -49,6 +49,7 @@ dependencies {
 //    implementation 'com.amazonaws:aws-android-sdk-ddb-mapper:2.19.0' //AWS IoT core dependency
     implementation fileTree(dir: 'libs', include: ['*.aar']) // For AWS SDK Libraries
     implementation 'com.google.android.material:material:1.2.1' //needed to add this for slider
+    //implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19' // for use with gifs
 
 
 //    // Amplify core dependency

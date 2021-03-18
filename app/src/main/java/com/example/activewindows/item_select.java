@@ -158,8 +158,6 @@ public class item_select extends AppCompatActivity {
         // Window1:GetStatus:0
         // Window1:Operate:100.0 where the last val is the percent.
 
-
-
         //__________________________________________________________________________________________
         // Run a periodic task so that the status will be auto updated without the users intervention
         final Handler autoCheck = new Handler();
@@ -242,46 +240,7 @@ public class item_select extends AppCompatActivity {
 
     }
 
-    // THIS IS DEPRECATED! I AM ONLY KEEPING THIS HERE FR REFERENCE! THE ABOVE HANDLER FIXES THIS
-    // PROBLEM ENTIRELY!
-    //__________________________________________________________________________________________
-    // Subscribe to the topic
-//    View.OnClickListener subscribeClick = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//
-//            final String topic_sub = "windowStatusTopic"; //THIS IS THE TOPIC WE WILL SUBSCRIBE TO
-//
-//            Log.d(LOG_TAG, "topic = " + topic_sub);
-//
-//            try {
-//                mqttManager.subscribeToTopic(topic_sub, AWSIotMqttQos.QOS0,
-//                        new AWSIotMqttNewMessageCallback() {
-//                            @Override
-//                            public void onMessageArrived(final String topic, final byte[] data) {
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        try {
-//                                            String message = new String(data, "UTF-8");
-//                                            Log.d(LOG_TAG, "Message arrived:");
-//                                            Log.d(LOG_TAG, "   Topic: " + topic);
-//                                            Log.d(LOG_TAG, " Message: " + message);
-//
-//                                            latestMessage.setText(message);
-//
-//                                        } catch (UnsupportedEncodingException e) {
-//                                            Log.e(LOG_TAG, "Message encoding error.", e);
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        });
-//            } catch (Exception e) {
-//                Log.e(LOG_TAG, "Subscription error.", e);
-//            }
-//        }
-//    };
+
 
     // to send the command to AWS:
     View.OnClickListener pubSendCommand = new View.OnClickListener() {
@@ -309,8 +268,5 @@ public class item_select extends AppCompatActivity {
 
         }
     };
-
-
-
 
 }
