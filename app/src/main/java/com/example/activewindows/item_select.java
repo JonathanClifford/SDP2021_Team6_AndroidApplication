@@ -230,7 +230,7 @@ public class item_select extends AppCompatActivity {
         }
 
         final String topic_pub = "windowCommandTopic";
-        final String msg = "Window1:GetStatus:0.0"; //Send an immediate status update so the user can see whats going on
+        final String msg = "Window:GetStatus:0.0"; //Send an immediate status update so the user can see whats going on
 
         try {
             mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
@@ -258,7 +258,7 @@ public class item_select extends AppCompatActivity {
                 percentageString = "0.0";
             }
 
-            final String msg = "Window1:" + "Operate:" + percentageString; //% open
+            final String msg = "Window:" + "Operate:" + percentageString; //% open
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);

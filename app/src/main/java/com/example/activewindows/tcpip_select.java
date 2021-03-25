@@ -94,7 +94,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                     percentageString = "0.0";
                 }
 
-                final String msg = "Window1:" + "Operate:" + percentageString; //% open
+                final String msg = "Window:" + "Operate:" + percentageString; //% open
                 sendMessage(msg);
 
 
