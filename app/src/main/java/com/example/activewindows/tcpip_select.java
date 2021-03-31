@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -95,6 +96,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                 }
 
                 final String msg = "Window:" + "Operate:" + percentageString; //% open
+                Toast.makeText(tcpip_select.this, msg, Toast.LENGTH_SHORT).show(); // appear on bottom
                 sendMessage(msg);
 
 
@@ -112,10 +114,8 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
             public void run()
             {
                 try {
-                    //Replace below IP with the IP of that device in which server socket open.
-                    //If you change port then change the port number in the server side code also.
-                    Socket s = new Socket("192.168.2.36", 9002); // This socket needs to
-                    // be changed on every use primarily because of stupid shit
+                    Socket s = new Socket("192.168.2.30", 9002); // This socket needs to
+                    // be changed on every use until we have a static IP address for NMC
 
                     OutputStream out = s.getOutputStream();
 
@@ -130,9 +130,8 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void run() {
 
-                            String s = latestMessage.getText().toString();
                             if (st.trim().length() != 0)
-                                latestMessage.setText(s + "\nFrom Server : " + st);
+                                latestMessage.setText(st);
                         }
                     });
 

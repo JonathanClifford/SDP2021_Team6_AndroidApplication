@@ -259,6 +259,7 @@ public class item_select extends AppCompatActivity {
             }
 
             final String msg = "Window:" + "Operate:" + percentageString; //% open
+            Toast.makeText(item_select.this, msg, Toast.LENGTH_SHORT).show(); // appear on bottom
 
             try {
                 mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
