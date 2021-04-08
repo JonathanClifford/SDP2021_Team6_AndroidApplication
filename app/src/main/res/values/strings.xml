@@ -13,7 +13,7 @@
     <color name="darkgray">#555556</color>  <!-- Used as background for the app. TODO Will change-->
     <color name="lightblue">#0487b8</color> <!-- Used as background for buttons -->
     <color name="red">#930404</color>
-    <color name="background">#cfcdcd</color>
+    <color name="background">#d3d2d2</color>
     <!--
     The following is used to help create the spinner and all of its subcomponents
     Note as well that this can be expanded on to add more windows as needed. There

@@ -50,7 +50,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.aar']) // For AWS SDK Libraries
     implementation 'com.google.android.material:material:1.2.1' //needed to add this for slider
     //implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19' // for use with gifs
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
 
 //    // Amplify core dependency
 //    implementation 'com.amplifyframework:core:1.4.0'

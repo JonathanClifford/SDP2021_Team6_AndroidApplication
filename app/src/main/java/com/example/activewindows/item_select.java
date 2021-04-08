@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.os.Bundle;
@@ -62,6 +63,21 @@ public class item_select extends AppCompatActivity {
 
     Slider messageSlider;
     Button sendCommand;
+
+    // images imageviews, appear when clicked
+    ImageView checkMarkStatus;
+    ImageView percent0;
+    ImageView percent10;
+    ImageView percent20;
+    ImageView percent30;
+    ImageView percent40;
+    ImageView percent50;
+    ImageView percent60;
+    ImageView percent70;
+    ImageView percent80;
+    ImageView percent90;
+    ImageView percent100;
+
     // CREATE INFORMATION FOR AWS.
     //______________________________________________________________________________________________
     // AWS - for AWS Thing (ActiveWindowsAndroidApp thing)
@@ -86,7 +102,20 @@ public class item_select extends AppCompatActivity {
         currentStatus = (TextView) findViewById(R.id.currentStatusView2);
         latestMessage = (TextView) findViewById(R.id.latestMessage);
         checkStatus = findViewById(R.id.statusBelowMe); // button
-        //checkStatus.setOnClickListener(subscribeClick); //call status DEPRECATED
+
+        // imageViews for status
+        checkMarkStatus = findViewById(R.id.ackStatusImage);
+        percent0 = findViewById(R.id.percent0open);
+        percent10 = findViewById(R.id.percent10open);
+        percent20 = findViewById(R.id.percent20open);
+        percent30 = findViewById(R.id.percent30open);
+        percent40 = findViewById(R.id.percent40open);
+        percent50 = findViewById(R.id.percent50open);
+        percent60 = findViewById(R.id.percent60open);
+        percent70 = findViewById(R.id.percent70open);
+        percent80 = findViewById(R.id.percent80open);
+        percent90 = findViewById(R.id.percent90open);
+        percent100 = findViewById(R.id.percent100open);
 
 
         messageSlider = findViewById(R.id.slider); //steps of 5 for commands to the window.
@@ -182,6 +211,201 @@ public class item_select extends AppCompatActivity {
                                                 Log.d(LOG_TAG, "Message arrived:");
                                                 Log.d(LOG_TAG, "   Topic: " + topic);
                                                 Log.d(LOG_TAG, " Message: " + message);
+                                                // For each status message, we are going to check
+                                                // to see what the output is, and then proceed
+                                                // to display an image
+
+                                                if (message.contains("ACK")) {
+                                                    checkMarkStatus.setVisibility(View.VISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                                    percent0.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                                    percent10.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                                    percent20.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                                    percent30.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                                    percent40.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                                    percent50.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                                    percent60.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                                    percent70.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                                    percent80.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                                    percent90.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                    percent100.setVisibility(View.INVISIBLE);
+                                                }
+
+                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                                    percent100.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                }
 
                                                 latestMessage.setText(message);
 
@@ -214,8 +438,6 @@ public class item_select extends AppCompatActivity {
                 startActivity(intent); // Once the back button is pressed, go back to the Main Activity.
             }
         });
-
-
 
 
     }
