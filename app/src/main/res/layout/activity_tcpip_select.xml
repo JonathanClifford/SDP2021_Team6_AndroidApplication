@@ -39,6 +39,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <Button
         android:id="@+id/TestButton"
         android:layout_width="250dp"
@@ -50,7 +51,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <TextView
         android:id="@+id/textView"
@@ -232,6 +232,18 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/open100percent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/checkmarkgif"
+        android:layout_width="315dp"
+        android:layout_height="231dp"
+        android:src="@drawable/checkmarkgif"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.774" />
 
 
 

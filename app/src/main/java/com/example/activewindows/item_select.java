@@ -104,7 +104,7 @@ public class item_select extends AppCompatActivity {
         checkStatus = findViewById(R.id.statusBelowMe); // button
 
         // imageViews for status
-        checkMarkStatus = findViewById(R.id.ackStatusImage);
+        checkMarkStatus = findViewById(R.id.checkmarkgif);
         percent0 = findViewById(R.id.percent0open);
         percent10 = findViewById(R.id.percent10open);
         percent20 = findViewById(R.id.percent20open);
@@ -211,11 +211,13 @@ public class item_select extends AppCompatActivity {
                                                 Log.d(LOG_TAG, "Message arrived:");
                                                 Log.d(LOG_TAG, "   Topic: " + topic);
                                                 Log.d(LOG_TAG, " Message: " + message);
+
                                                 // For each status message, we are going to check
                                                 // to see what the output is, and then proceed
                                                 // to display an image
 
                                                 if (message.contains("ACK")) {
+                                                    message = "Window Standing By";
                                                     checkMarkStatus.setVisibility(View.VISIBLE);
                                                     percent0.setVisibility(View.INVISIBLE);
                                                     percent10.setVisibility(View.INVISIBLE);
@@ -231,7 +233,8 @@ public class item_select extends AppCompatActivity {
 
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                                    message = "Window is fully closed.";
                                                     percent0.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -247,7 +250,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                                    message = "Window is 10% open.";
                                                     percent10.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -263,7 +267,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                                    message = "Window is 20% open.";
                                                     percent20.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -279,7 +284,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"30\"}")) {
+                                                    message = "Window is 30% open.";
                                                     percent30.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -295,7 +301,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                                    message = "Window is 40% open.";
                                                     percent40.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -311,7 +318,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                                    message = "Window is 50% open.";
                                                     percent50.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -327,7 +335,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                                    message = "Window is 60% open.";
                                                     percent60.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -343,7 +352,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                                    message = "Window is 70% open.";
                                                     percent70.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -359,7 +369,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                                    message = "Window is 80% open.";
                                                     percent80.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -375,7 +386,8 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                                    message = "Window is 90% open.";
                                                     percent90.setVisibility(View.VISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -391,8 +403,24 @@ public class item_select extends AppCompatActivity {
                                                     percent100.setVisibility(View.INVISIBLE);
                                                 }
 
-                                                if (message.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                                else if (message.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                                    message = "Window is fully open.";
                                                     percent100.setVisibility(View.VISIBLE);
+
+                                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                                    percent10.setVisibility(View.INVISIBLE);
+                                                    percent20.setVisibility(View.INVISIBLE);
+                                                    percent30.setVisibility(View.INVISIBLE);
+                                                    percent40.setVisibility(View.INVISIBLE);
+                                                    percent50.setVisibility(View.INVISIBLE);
+                                                    percent60.setVisibility(View.INVISIBLE);
+                                                    percent70.setVisibility(View.INVISIBLE);
+                                                    percent80.setVisibility(View.INVISIBLE);
+                                                    percent90.setVisibility(View.INVISIBLE);
+                                                    percent0.setVisibility(View.INVISIBLE);
+                                                }
+                                                else { // some other unrecognized message sent to us.
+                                                    percent100.setVisibility(View.INVISIBLE);
 
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
                                                     percent10.setVisibility(View.INVISIBLE);

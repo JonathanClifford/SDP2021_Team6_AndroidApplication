@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
+
+import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 import com.google.android.material.slider.Slider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -82,7 +84,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
 
         // imageViews for status
-        checkMarkStatus = findViewById(R.id.ackStatusImage);
+        checkMarkStatus = findViewById(R.id.checkmarkgif);
         percent0 = findViewById(R.id.percent0open);
         percent10 = findViewById(R.id.percent10open);
         percent20 = findViewById(R.id.percent20open);
@@ -94,6 +96,9 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         percent80 = findViewById(R.id.percent80open);
         percent90 = findViewById(R.id.percent90open);
         percent100 = findViewById(R.id.percent100open);
+        // ____________________________________________
+        // Send an immediate get status command upon starting the task.
+        initializeStatusUpdate();
 
 
         // go back to the main function
@@ -163,6 +168,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                 // TODO THIS IS UNTESTED CODE, AND REQUIRES THE NMC TO WORK PROPERLY
                                 // WITH TCP/IP
                                 if (st.contains("ACK")) {
+                                    String curMsg = "Window standing by.";
                                     checkMarkStatus.setVisibility(View.VISIBLE);
                                     percent0.setVisibility(View.INVISIBLE);
                                     percent10.setVisibility(View.INVISIBLE);
@@ -175,10 +181,12 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
 
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                    String curMsg = "Window is fully closed.";
                                     percent0.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -192,9 +200,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                    String curMsg = "Window is 10% open.";
                                     percent10.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -208,9 +218,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                    String curMsg = "Window is 20% open.";
                                     percent20.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -224,9 +236,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"30\"}")) {
+                                    String curMsg = "Window is 30% open.";
                                     percent30.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -240,9 +254,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                    String curMsg = "Window is 40% open.";
                                     percent40.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -256,9 +272,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                    String curMsg = "Window is 50% open.";
                                     percent50.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -272,9 +290,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                    String curMsg = "Window is 60% open.";
                                     percent60.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -288,9 +308,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                    String curMsg = "Window is 70% open.";
                                     percent70.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -304,9 +326,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                    String curMsg = "Window is 80% open.";
                                     percent80.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -320,9 +344,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent0.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                    String curMsg = "Window is 90% open.";
                                     percent90.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -336,9 +362,11 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent0.setVisibility(View.INVISIBLE);
                                     percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
                                 }
 
-                                if (st.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                    String curMsg = "Window is fully open.";
                                     percent100.setVisibility(View.VISIBLE);
 
                                     checkMarkStatus.setVisibility(View.INVISIBLE);
@@ -352,10 +380,14 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                                     percent80.setVisibility(View.INVISIBLE);
                                     percent90.setVisibility(View.INVISIBLE);
                                     percent0.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                }
+                                else {
+                                    latestMessage.setText(st); // failsafe case, unexpected msg
                                 }
 
 
-                                latestMessage.setText(st);
+//                                latestMessage.setText(st); //TEST UNCOMMENT
                         }
                     });
 
@@ -371,4 +403,19 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+    // _____________________________________________________________________________________________
+    // This runs on startup, basically it'll request the NMC to send an immediate status update.
+    private void initializeStatusUpdate() {
+        try {
+            Thread.sleep(700); // Put this here because it needs some sort of a delay.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+        final String msg = "Window:GetStatus:0.0";
+        sendMessage(msg); //Send an immediate status update so the user can see whats going on
+
+    }
+
 }
