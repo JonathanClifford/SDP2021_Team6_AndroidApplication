@@ -1,8 +1,10 @@
 package com.example.activewindows;
 
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -64,6 +66,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
     ImageView percent80;
     ImageView percent90;
     ImageView percent100;
+    public boolean isFirstMessage = true;
 
 
     @Override
@@ -100,7 +103,6 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         // Send an immediate get status command upon starting the task.
         initializeStatusUpdate();
 
-
         // go back to the main function
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -129,7 +131,8 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                     percentageString = "0.0";
                 }
 
-                final String msg = "Window:" + "Operate:" + percentageString; //% open
+                String msg = "Window:" + "Operate:" + percentageString; //% open
+
                 Toast.makeText(tcpip_select.this, msg, Toast.LENGTH_SHORT).show(); // appear on bottom
                 sendMessage(msg);
 
@@ -413,8 +416,29 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
             Thread.currentThread().interrupt();
         }
 
-        final String msg = "Window:GetStatus:0.0";
-        sendMessage(msg); //Send an immediate status update so the user can see whats going on
+        if (isFirstMessage) {
+            isFirstMessage = false;
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+            String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+            String portNumber = "8080"; // Apparantly default port number for TCP/IP is 8080
+            String androidAppNetInfo = "IP:" + ipAddress + ":portNumber:" + portNumber;
+            sendMessage(androidAppNetInfo);
+        }
+
+        // SLEEP FOR 1000 MS WHILE NMC RECEIVES IP ADDRESS
+
+        try {
+            Thread.sleep(1000); // Put this here because it needs some sort of a delay.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+        //  SEND IMMEDIATE REQUEST FOR STATUS UPDATE
+
+        if (isFirstMessage == false) {
+            String msg = "Window:GetStatus:0.0";
+            sendMessage(msg); //Send an immediate status update so the user can see whats going on
+        }
 
     }
 
