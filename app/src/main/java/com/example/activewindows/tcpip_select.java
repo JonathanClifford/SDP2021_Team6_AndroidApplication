@@ -30,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
+import android.view.View; // test commit
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
