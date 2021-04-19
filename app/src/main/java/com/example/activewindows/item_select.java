@@ -516,6 +516,7 @@ public class item_select extends AppCompatActivity {
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Publish error.", e);
             }
+            latestMessage.setText("Message sent. Waiting on reply.");
 
         }
     };
