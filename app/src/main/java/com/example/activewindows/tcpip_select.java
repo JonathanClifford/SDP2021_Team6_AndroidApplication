@@ -128,25 +128,21 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         /* ~Opens socket on startUp~ */
         startServerSocket();
 
-        // go back to the main function
+        // go back to the main function and close socket
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                try {
                     if(s!= null) {
-                        //s.close();
                         //tell socket to close
-                        sockOutput.write("#");
-                        sockOutput.flush();
+                        //sockOutput.write("#\0");
+                        //sockOutput.flush();
+                        command[0] = "#\0";
 
-                        sockOutput.close();
-                        s.close();
-                        ss.close();
+                        //sockOutput.close();
+                        //s.close();
+                        //ss.close();
+                        //ss.close();
                     }
-                    ss.close();
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 Intent intent = new Intent(tcpip_select.this, MainActivity.class);
                 startActivity(intent); // Once the back button is pressed, go back to the Main Activity.
             }
@@ -179,17 +175,15 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(tcpip_select.this, msgCommand, Toast.LENGTH_SHORT).show(); // appear on bottom
 
                 latestMessage.setText("Message sent. Waiting on reply."); //transient case, update the status view to let user know that msg sent.
-                //sendMessage(msg);
-                //send2MesgBuffer();
+
                 command[0] = msgCommand;
 
-                /* App now delay for 7ms then sit in a listening state for a response*/
-                //listenMessage();
 
-                break;
+            break;
         }
     }
     //Remove these
+    /*
     private void sendMessage(final String msg) {
 
         final Handler handler = new Handler();
@@ -227,7 +221,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-        }) ;
+        });
         thread.start();
     }
     private void listenMessage() {
@@ -258,218 +252,218 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                         final String st = input.readLine();
 
                         handler.post(new Runnable() {
-                            @Override
-                            public void run() {
+                        @Override
+                        public void run() {
 
-                                if (st.trim().length() != 0)
-                                    // TODO THIS IS UNTESTED CODE, AND REQUIRES THE NMC TO WORK PROPERLY
-                                    // WITH TCP/IP
-                                    if (st.contains("ACK")) {
-                                        String curMsg = "Window standing by.";
-                                        checkMarkStatus.setVisibility(View.VISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
+                            if (st.trim().length() != 0)
+                                // TODO THIS IS UNTESTED CODE, AND REQUIRES THE NMC TO WORK PROPERLY
+                                // WITH TCP/IP
+                                if (st.contains("ACK")) {
+                                    String curMsg = "Window standing by.";
+                                    checkMarkStatus.setVisibility(View.VISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
 
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
-                                        String curMsg = "Window is fully closed.";
-                                        percent0.setVisibility(View.VISIBLE);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"0\"}")) {
+                                    String curMsg = "Window is fully closed.";
+                                    percent0.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
-                                        String curMsg = "Window is 10% open.";
-                                        percent10.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"10\"}")) {
+                                    String curMsg = "Window is 10% open.";
+                                    percent10.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
-                                        String curMsg = "Window is 20% open.";
-                                        percent20.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"20\"}")) {
+                                    String curMsg = "Window is 20% open.";
+                                    percent20.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"30\"}")) {
-                                        String curMsg = "Window is 30% open.";
-                                        percent30.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"30\"}")) {
+                                    String curMsg = "Window is 30% open.";
+                                    percent30.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
-                                        String curMsg = "Window is 40% open.";
-                                        percent40.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"40\"}")) {
+                                    String curMsg = "Window is 40% open.";
+                                    percent40.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
-                                        String curMsg = "Window is 50% open.";
-                                        percent50.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"50\"}")) {
+                                    String curMsg = "Window is 50% open.";
+                                    percent50.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
-                                        String curMsg = "Window is 60% open.";
-                                        percent60.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"60\"}")) {
+                                    String curMsg = "Window is 60% open.";
+                                    percent60.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
-                                        String curMsg = "Window is 70% open.";
-                                        percent70.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"70\"}")) {
+                                    String curMsg = "Window is 70% open.";
+                                    percent70.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
-                                        String curMsg = "Window is 80% open.";
-                                        percent80.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"80\"}")) {
+                                    String curMsg = "Window is 80% open.";
+                                    percent80.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
-                                        String curMsg = "Window is 90% open.";
-                                        percent90.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"90\"}")) {
+                                    String curMsg = "Window is 90% open.";
+                                    percent90.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        percent100.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
-                                        String curMsg = "Window is fully open.";
-                                        percent100.setVisibility(View.VISIBLE);
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    percent100.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else if (st.equals("{\"ID\": \"Window\",\"Operate\": \"100\"}")) {
+                                    String curMsg = "Window is fully open.";
+                                    percent100.setVisibility(View.VISIBLE);
 
-                                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                                        percent10.setVisibility(View.INVISIBLE);
-                                        percent20.setVisibility(View.INVISIBLE);
-                                        percent30.setVisibility(View.INVISIBLE);
-                                        percent40.setVisibility(View.INVISIBLE);
-                                        percent50.setVisibility(View.INVISIBLE);
-                                        percent60.setVisibility(View.INVISIBLE);
-                                        percent70.setVisibility(View.INVISIBLE);
-                                        percent80.setVisibility(View.INVISIBLE);
-                                        percent90.setVisibility(View.INVISIBLE);
-                                        percent0.setVisibility(View.INVISIBLE);
-                                        latestMessage.setText(curMsg);
-                                    } else {
-                                        latestMessage.setText(st); // failsafe case, unexpected msg
-                                    }
+                                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                                    percent10.setVisibility(View.INVISIBLE);
+                                    percent20.setVisibility(View.INVISIBLE);
+                                    percent30.setVisibility(View.INVISIBLE);
+                                    percent40.setVisibility(View.INVISIBLE);
+                                    percent50.setVisibility(View.INVISIBLE);
+                                    percent60.setVisibility(View.INVISIBLE);
+                                    percent70.setVisibility(View.INVISIBLE);
+                                    percent80.setVisibility(View.INVISIBLE);
+                                    percent90.setVisibility(View.INVISIBLE);
+                                    percent0.setVisibility(View.INVISIBLE);
+                                    latestMessage.setText(curMsg);
+                                } else {
+                                    latestMessage.setText(st); // failsafe case, unexpected msg
+                                }
 
                             }
                         });
 
-                        input.close();
-                        s.close();
-                        end2 = true;
+                    input.close();
+                    s.close();
+                    end2 = true;
                     }
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                        e.printStackTrace();
                 }
             }
         });
@@ -510,7 +504,7 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
+    */
 
     private void updateVisuals(String[] msg,int flag){
 
@@ -524,66 +518,66 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
 
-                if (connection==1) {
+                    if (connection==1) {
                     connected.setText("TCP_IP Connected");
-                }
-                else if (connection ==2){
-                    connected.setText("TCP_IP Disconnected");
-                }
-                else if (func.equals("ACK")) {
-                    String curMsg = "Window standing by.";
-                    checkMarkStatus.setVisibility(View.VISIBLE);
-                    percent0.setVisibility(View.INVISIBLE);
-                    percent10.setVisibility(View.INVISIBLE);
-                    percent20.setVisibility(View.INVISIBLE);
-                    percent30.setVisibility(View.INVISIBLE);
-                    percent40.setVisibility(View.INVISIBLE);
-                    percent50.setVisibility(View.INVISIBLE);
-                    percent60.setVisibility(View.INVISIBLE);
-                    percent70.setVisibility(View.INVISIBLE);
-                    percent80.setVisibility(View.INVISIBLE);
-                    percent90.setVisibility(View.INVISIBLE);
-                    percent100.setVisibility(View.INVISIBLE);
-                    latestMessage.setText(curMsg);
+                    }
+                    else if (connection ==2){
+                        connected.setText("TCP_IP Disconnected");
+                    }
+                    else if (func.equals("ACK")) {
+                        String curMsg = "Window standing by.";
+                        checkMarkStatus.setVisibility(View.VISIBLE);
+                        percent0.setVisibility(View.INVISIBLE);
+                        percent10.setVisibility(View.INVISIBLE);
+                        percent20.setVisibility(View.INVISIBLE);
+                        percent30.setVisibility(View.INVISIBLE);
+                        percent40.setVisibility(View.INVISIBLE);
+                        percent50.setVisibility(View.INVISIBLE);
+                        percent60.setVisibility(View.INVISIBLE);
+                        percent70.setVisibility(View.INVISIBLE);
+                        percent80.setVisibility(View.INVISIBLE);
+                        percent90.setVisibility(View.INVISIBLE);
+                        percent100.setVisibility(View.INVISIBLE);
+                        latestMessage.setText(curMsg);
 
-                }
-                else if (val.equals("0")) {
-                    String curMsg = "Window is fully closed.";
-                    percent0.setVisibility(View.VISIBLE);
+                    }
+                    else if (val.equals("0")) {
+                        String curMsg = "Window is fully closed.";
+                        percent0.setVisibility(View.VISIBLE);
 
-                    checkMarkStatus.setVisibility(View.INVISIBLE);
-                    percent10.setVisibility(View.INVISIBLE);
-                    percent20.setVisibility(View.INVISIBLE);
-                    percent30.setVisibility(View.INVISIBLE);
-                    percent40.setVisibility(View.INVISIBLE);
-                    percent50.setVisibility(View.INVISIBLE);
-                    percent60.setVisibility(View.INVISIBLE);
-                    percent70.setVisibility(View.INVISIBLE);
-                    percent80.setVisibility(View.INVISIBLE);
-                    percent90.setVisibility(View.INVISIBLE);
-                    percent100.setVisibility(View.INVISIBLE);
-                    latestMessage.setText(curMsg);
-                }
-                else if (val.equals("10")) {
-                    String curMsg = "Window is 10% open.";
-                    percent10.setVisibility(View.VISIBLE);
+                        checkMarkStatus.setVisibility(View.INVISIBLE);
+                        percent10.setVisibility(View.INVISIBLE);
+                        percent20.setVisibility(View.INVISIBLE);
+                        percent30.setVisibility(View.INVISIBLE);
+                        percent40.setVisibility(View.INVISIBLE);
+                        percent50.setVisibility(View.INVISIBLE);
+                        percent60.setVisibility(View.INVISIBLE);
+                        percent70.setVisibility(View.INVISIBLE);
+                        percent80.setVisibility(View.INVISIBLE);
+                        percent90.setVisibility(View.INVISIBLE);
+                        percent100.setVisibility(View.INVISIBLE);
+                        latestMessage.setText(curMsg);
+                    }
+                    else if (val.equals("10")) {
+                        String curMsg = "Window is 10% open.";
+                        percent10.setVisibility(View.VISIBLE);
 
-                    checkMarkStatus.setVisibility(View.INVISIBLE);
-                    percent0.setVisibility(View.INVISIBLE);
-                    percent20.setVisibility(View.INVISIBLE);
-                    percent30.setVisibility(View.INVISIBLE);
-                    percent40.setVisibility(View.INVISIBLE);
-                    percent50.setVisibility(View.INVISIBLE);
-                    percent60.setVisibility(View.INVISIBLE);
-                    percent70.setVisibility(View.INVISIBLE);
-                    percent80.setVisibility(View.INVISIBLE);
-                    percent90.setVisibility(View.INVISIBLE);
-                    percent100.setVisibility(View.INVISIBLE);
-                    latestMessage.setText(curMsg);
-                }
-                else if (val.equals("20")) {
-                    String curMsg = "Window is 20% open.";
-                    percent20.setVisibility(View.VISIBLE);
+                        checkMarkStatus.setVisibility(View.INVISIBLE);
+                        percent0.setVisibility(View.INVISIBLE);
+                        percent20.setVisibility(View.INVISIBLE);
+                        percent30.setVisibility(View.INVISIBLE);
+                        percent40.setVisibility(View.INVISIBLE);
+                        percent50.setVisibility(View.INVISIBLE);
+                        percent60.setVisibility(View.INVISIBLE);
+                        percent70.setVisibility(View.INVISIBLE);
+                        percent80.setVisibility(View.INVISIBLE);
+                        percent90.setVisibility(View.INVISIBLE);
+                        percent100.setVisibility(View.INVISIBLE);
+                        latestMessage.setText(curMsg);
+                    }
+                    else if (val.equals("20")) {
+                        String curMsg = "Window is 20% open.";
+                        percent20.setVisibility(View.VISIBLE);
 
                     checkMarkStatus.setVisibility(View.INVISIBLE);
                     percent0.setVisibility(View.INVISIBLE);
@@ -760,39 +754,36 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
                     /* Thread waits for a connection*/
                     s = ss.accept();
+                    s.setSoTimeout(300);
 
                     sockInput = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     sockOutput = new PrintWriter(s.getOutputStream());
 
                     String stringData = "";
-                    int shift = 0;
                     String[] tempArr = {"", "", ""};
-                    s.setSoTimeout(300);
-
-                    updateVisuals(tempArr, 1);
-
 
                     /* Updates connection visuals   */
+                    updateVisuals(tempArr, 1);
 
                     float count =0;
                     float count2 = 0;
-                    //Toast.makeText(tcpip_select.this, "Socket Connected", Toast.LENGTH_SHORT).show(); // appear on bottom
 
+                    /*===========Socket Main===============*/
                     while (!end) {
                         count +=1;
-                        /* Pro Clock (patent pending) */
+
+                        /*=============Socket TimeOut Check ===============
                         if(count == 2000000) {
                             count2+=1;
-                            count-=1;
-                            if(count2 == 10) {
+                            count = 0;
+                            if(count2 == 300) {
                                 updateVisuals(tempArr, 2);
-                                sockOutput.write("#");
-                                sockOutput.flush();
-                                end = true;
-                                break;
+                                //end = true;
+                                //break;
                             }
-                        }
+                        }===============================================*/
 
+                        /* ================= Read Socket =================*/
                         if (sockInput.ready()) {
                             try {
                                 stringData = sockInput.readLine();
@@ -801,46 +792,46 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                             }
                             //status[shift] = stringData;
                             //shift += 1;
-                        }
+                        }/*================================================*/
+
                         /*================  Input Checker  ================*/
                         if(stringData!= null) {
-                            if (stringData.contains("status") | stringData.contains("ACK")) {
-                                count = 0;
-                                //stringData = stringData.substring(1, stringData.length() - 1);
-                                status = stringData.split(":");
-                                updateVisuals(status,0);
-                                //TODO update visuals
-                                stringData="";
-                                //sockInput.reset();
-                                //continue;
-                            }
-                            switch (stringData) {
-
-                                case "#":       /* NMC closed socket */
+                                if (stringData.contains("status") | stringData.contains("ACK")) {
                                     count = 0;
-                                    end = true;
-                                    break;
+                                    //stringData = stringData.substring(1, stringData.length() - 1);
+                                    status = stringData.split(":");
+                                    updateVisuals(status,0);
+                                    stringData=null;
+                                    continue;
+                                }
+                                switch (stringData) {
 
-                                case "$":       /* Connection check */
-                                    count = 0;
-                                    sockOutput.write("$\0");
-                                    sockOutput.flush();
+                                    case "#":       /* NMC closed socket */
+                                        count = 0;
+                                        updateVisuals(tempArr,2);
+                                        end = true;
+                                        break;
 
+                                    case "$":       /* Connection check */
+                                        count = 0;
+                                        sockOutput.write("$\0");
+                                        sockOutput.flush();
+                                }
+                        }/*====================================================*/
+
+                        /*================== APP Command Check ================*/
+                            if (!command[0].equals("")) {
+                                if (command[0].equals("#\0")){ end=true; }
+                                sockOutput.write(command[0]);
+                                sockOutput.flush();
+                                command[0] = "";
                             }/*================================================*/
-                        }
-                        /*================== Command Check ================*/
-                        if (!command[0].equals("")) {
-                            sockOutput.write(command[0]);
-                            sockOutput.flush();
-                            command[0] = "";
-                        }/*================================================*/
-                        stringData = null;
+                            stringData = null;
 
-                        //TODO print connected msg
-                    }
-                    sockOutput.close();
-                    s.close();
-                    ss.close();
+                        }
+                        sockOutput.close();
+                        s.close();
+                        ss.close();
 
                 } catch(IOException e){
                     e.printStackTrace();
