@@ -96,7 +96,6 @@ public class item_select extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_select);
 
-
         //Select buttons and recognize them for later on.
         back = findViewById(R.id.TestButton);
         currentStatus = (TextView) findViewById(R.id.currentStatusView2);
@@ -421,7 +420,6 @@ public class item_select extends AppCompatActivity {
                                                 }
                                                 else { // some other unrecognized message sent to us.
                                                     percent100.setVisibility(View.INVISIBLE);
-
                                                     checkMarkStatus.setVisibility(View.INVISIBLE);
                                                     percent10.setVisibility(View.INVISIBLE);
                                                     percent20.setVisibility(View.INVISIBLE);
@@ -509,14 +507,34 @@ public class item_select extends AppCompatActivity {
             }
 
             final String msg = "Window:" + "Operate:" + percentageString; //% open
-            Toast.makeText(item_select.this, msg, Toast.LENGTH_SHORT).show(); // appear on bottom
-
-            try {
-                mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Publish error.", e);
+            String curMsg = (String) latestMessage.getText(); // if we are still waiting on the last,
+            // do not send msg
+            if (curMsg.equals("Message sent. Waiting on reply.")) {
+                Toast.makeText(item_select.this, "Waiting on previous command. Did not send message.", Toast.LENGTH_SHORT).show(); // appear on bottom
             }
-            latestMessage.setText("Message sent. Waiting on reply.");
+            else {
+                Toast.makeText(item_select.this, msg, Toast.LENGTH_SHORT).show(); // appear on bottom
+
+                try {
+                    mqttManager.publishString(msg, topic_pub, AWSIotMqttQos.QOS0);
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Publish error.", e);
+                }
+                latestMessage.setText("Message sent. Waiting on reply.");
+                checkMarkStatus.setVisibility(View.INVISIBLE);
+                percent0.setVisibility(View.INVISIBLE);
+                percent10.setVisibility(View.INVISIBLE);
+                percent20.setVisibility(View.INVISIBLE);
+                percent30.setVisibility(View.INVISIBLE);
+                percent40.setVisibility(View.INVISIBLE);
+                percent50.setVisibility(View.INVISIBLE);
+                percent60.setVisibility(View.INVISIBLE);
+                percent70.setVisibility(View.INVISIBLE);
+                percent80.setVisibility(View.INVISIBLE);
+                percent90.setVisibility(View.INVISIBLE);
+                percent100.setVisibility(View.INVISIBLE);
+            }
+
 
         }
     };

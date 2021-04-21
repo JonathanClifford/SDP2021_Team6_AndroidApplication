@@ -100,13 +100,8 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         checkStatus = findViewById(R.id.statusBelowMe); // button
         connected = findViewById(R.id.connected); //checks socket connection
 
-
-
-
-
         messageSlider = findViewById(R.id.slider); //steps of 5 for commands to the window.
         sendCommand = findViewById(R.id.sendSliderCommandButton); //AWS sends command to button
-
 
         // imageViews for status
         checkMarkStatus = findViewById(R.id.checkmarkgif);
@@ -172,11 +167,28 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
                 String msgCommand = "Window:" + "Operate:" + percentageString +"\0"; //% open
 
-                Toast.makeText(tcpip_select.this, msgCommand, Toast.LENGTH_SHORT).show(); // appear on bottom
+                String curMsg = (String) latestMessage.getText();
 
-                latestMessage.setText("Message sent. Waiting on reply."); //transient case, update the status view to let user know that msg sent.
-
-                command[0] = msgCommand;
+                if (curMsg.equals("Message sent. Waiting on reply.")) {
+                    Toast.makeText(tcpip_select.this, "Waiting on previous command. Did not send message.", Toast.LENGTH_SHORT).show(); // appear on bottom
+                }
+                else {
+                    Toast.makeText(tcpip_select.this, msgCommand, Toast.LENGTH_SHORT).show(); // appear on bottom
+                    latestMessage.setText("Message sent. Waiting on reply."); //transient case, update the status view to let user know that msg sent.
+                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                    percent0.setVisibility(View.INVISIBLE);
+                    percent10.setVisibility(View.INVISIBLE);
+                    percent20.setVisibility(View.INVISIBLE);
+                    percent30.setVisibility(View.INVISIBLE);
+                    percent40.setVisibility(View.INVISIBLE);
+                    percent50.setVisibility(View.INVISIBLE);
+                    percent60.setVisibility(View.INVISIBLE);
+                    percent70.setVisibility(View.INVISIBLE);
+                    percent80.setVisibility(View.INVISIBLE);
+                    percent90.setVisibility(View.INVISIBLE);
+                    percent100.setVisibility(View.INVISIBLE);
+                    command[0] = msgCommand;
+                }
 
 
             break;
@@ -728,8 +740,21 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                     percent0.setVisibility(View.INVISIBLE);
                     latestMessage.setText(curMsg);
                 }
-                else {
-                    latestMessage.setText(val); // failsafe case, unexpected msg
+                else {// failsafe case, unexpected msg
+
+                    percent100.setVisibility(View.INVISIBLE);
+                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                    percent10.setVisibility(View.INVISIBLE);
+                    percent20.setVisibility(View.INVISIBLE);
+                    percent30.setVisibility(View.INVISIBLE);
+                    percent40.setVisibility(View.INVISIBLE);
+                    percent50.setVisibility(View.INVISIBLE);
+                    percent60.setVisibility(View.INVISIBLE);
+                    percent70.setVisibility(View.INVISIBLE);
+                    percent80.setVisibility(View.INVISIBLE);
+                    percent90.setVisibility(View.INVISIBLE);
+                    percent0.setVisibility(View.INVISIBLE);
+                    latestMessage.setText(val);
                 }
 
             }
