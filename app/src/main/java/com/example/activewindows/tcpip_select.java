@@ -126,17 +126,17 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
         // go back to the main function and close socket
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                    if(s!= null) {
-                        //tell socket to close
-                        //sockOutput.write("#\0");
-                        //sockOutput.flush();
-                        command[0] = "#\0";
+                if(s!= null) {
+                    //tell socket to close
+                    //sockOutput.write("#\0");
+                    //sockOutput.flush();
+                    command[0] = "#\0";
 
-                        //sockOutput.close();
-                        //s.close();
-                        //ss.close();
-                        //ss.close();
-                    }
+                    //sockOutput.close();
+                    //s.close();
+                    //ss.close();
+                    //ss.close();
+                }
 
                 Intent intent = new Intent(tcpip_select.this, MainActivity.class);
                 startActivity(intent); // Once the back button is pressed, go back to the Main Activity.
@@ -152,47 +152,48 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) { // for the actual sending of commands
         //
-        switch (v.getId()) {
-            case R.id.sendSliderCommandButton:
+        //switch (v.getId()) {
+        //    case R.id.sendSliderCommandButton:
 
-                final float currentPercentage = messageSlider.getValue();
-                String percentageString = null;
+        final float currentPercentage = messageSlider.getValue();
+        String percentageString = null;
 
-                if (currentPercentage != 0){
-                    percentageString = Float.toString(currentPercentage);
-                }
-                else {
-                    percentageString = "0.0";
-                }
-
-                String msgCommand = "Window:" + "Operate:" + percentageString +"\0"; //% open
-
-                String curMsg = (String) latestMessage.getText();
-
-                if (curMsg.equals("Message sent. Waiting on reply.")) {
-                    Toast.makeText(tcpip_select.this, "Waiting on previous command. Did not send message.", Toast.LENGTH_SHORT).show(); // appear on bottom
-                }
-                else {
-                    Toast.makeText(tcpip_select.this, msgCommand, Toast.LENGTH_SHORT).show(); // appear on bottom
-                    latestMessage.setText("Message sent. Waiting on reply."); //transient case, update the status view to let user know that msg sent.
-                    checkMarkStatus.setVisibility(View.INVISIBLE);
-                    percent0.setVisibility(View.INVISIBLE);
-                    percent10.setVisibility(View.INVISIBLE);
-                    percent20.setVisibility(View.INVISIBLE);
-                    percent30.setVisibility(View.INVISIBLE);
-                    percent40.setVisibility(View.INVISIBLE);
-                    percent50.setVisibility(View.INVISIBLE);
-                    percent60.setVisibility(View.INVISIBLE);
-                    percent70.setVisibility(View.INVISIBLE);
-                    percent80.setVisibility(View.INVISIBLE);
-                    percent90.setVisibility(View.INVISIBLE);
-                    percent100.setVisibility(View.INVISIBLE);
-                    command[0] = msgCommand;
-                }
-
-
-            break;
+        if (currentPercentage != 0){
+            percentageString = Float.toString(currentPercentage);
         }
+        else {
+            percentageString = "0.0";
+        }
+
+        String msgCommand = "Window:" + "Operate:" + percentageString +"\0"; //% open
+
+        String curMsg = (String) latestMessage.getText();
+        String temp = "Message sent. Waiting on reply.";
+
+        //if (curMsg.equals("Message sent. Waiting on reply.")) {
+        //    Toast.makeText(tcpip_select.this, "Waiting on previous command. Did not send message.", Toast.LENGTH_SHORT).show(); // appear on bottom
+        //}
+        //else {
+        Toast.makeText(tcpip_select.this, msgCommand, Toast.LENGTH_SHORT).show(); // appear on bottom
+        latestMessage.setText(temp); //transient case, update the status view to let user know that msg sent.
+        checkMarkStatus.setVisibility(View.INVISIBLE);
+        percent0.setVisibility(View.INVISIBLE);
+        percent10.setVisibility(View.INVISIBLE);
+        percent20.setVisibility(View.INVISIBLE);
+        percent30.setVisibility(View.INVISIBLE);
+        percent40.setVisibility(View.INVISIBLE);
+        percent50.setVisibility(View.INVISIBLE);
+        percent60.setVisibility(View.INVISIBLE);
+        percent70.setVisibility(View.INVISIBLE);
+        percent80.setVisibility(View.INVISIBLE);
+        percent90.setVisibility(View.INVISIBLE);
+        percent100.setVisibility(View.INVISIBLE);
+        command[0] = msgCommand;
+        //}
+
+
+        //break;
+        //}
     }
     //Remove these
     /*
@@ -520,9 +521,10 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
     private void updateVisuals(String[] msg,int flag){
 
-        final String val = msg[2];
-        final String func = msg[1];
-        final String ID = msg[0];
+        final String val = msg[3];
+        final String func = msg[2];
+        final String ID = msg[1];
+        final String ACK = msg[1];
 
         final int connection = flag;
 
@@ -530,66 +532,65 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
 
-                    if (connection==1) {
+                if (connection==1) {
                     connected.setText("TCP_IP Connected");
-                    }
-                    else if (connection ==2){
-                        connected.setText("TCP_IP Disconnected");
-                    }
-                    else if (func.equals("ACK")) {
-                        String curMsg = "Window standing by.";
-                        checkMarkStatus.setVisibility(View.VISIBLE);
-                        percent0.setVisibility(View.INVISIBLE);
-                        percent10.setVisibility(View.INVISIBLE);
-                        percent20.setVisibility(View.INVISIBLE);
-                        percent30.setVisibility(View.INVISIBLE);
-                        percent40.setVisibility(View.INVISIBLE);
-                        percent50.setVisibility(View.INVISIBLE);
-                        percent60.setVisibility(View.INVISIBLE);
-                        percent70.setVisibility(View.INVISIBLE);
-                        percent80.setVisibility(View.INVISIBLE);
-                        percent90.setVisibility(View.INVISIBLE);
-                        percent100.setVisibility(View.INVISIBLE);
-                        latestMessage.setText(curMsg);
+                }
+                else if (connection ==2){
+                    connected.setText("TCP_IP Disconnected");
+                }
+                else if (func.equals("ACK")) {
+                    String curMsg = "Window standing by.";
+                    checkMarkStatus.setVisibility(View.VISIBLE);
+                    percent0.setVisibility(View.INVISIBLE);
+                    percent10.setVisibility(View.INVISIBLE);
+                    percent20.setVisibility(View.INVISIBLE);
+                    percent30.setVisibility(View.INVISIBLE);
+                    percent40.setVisibility(View.INVISIBLE);
+                    percent50.setVisibility(View.INVISIBLE);
+                    percent60.setVisibility(View.INVISIBLE);
+                    percent70.setVisibility(View.INVISIBLE);
+                    percent80.setVisibility(View.INVISIBLE);
+                    percent90.setVisibility(View.INVISIBLE);
+                    percent100.setVisibility(View.INVISIBLE);
+                    latestMessage.setText(curMsg);
 
-                    }
-                    else if (val.equals("0")) {
-                        String curMsg = "Window is fully closed.";
-                        percent0.setVisibility(View.VISIBLE);
+                }
+                else if (val.equals("0")) {
+                    String curMsg = "Window is fully closed.";
+                    percent0.setVisibility(View.VISIBLE);
+                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                    percent10.setVisibility(View.INVISIBLE);
+                    percent20.setVisibility(View.INVISIBLE);
+                    percent30.setVisibility(View.INVISIBLE);
+                    percent40.setVisibility(View.INVISIBLE);
+                    percent50.setVisibility(View.INVISIBLE);
+                    percent60.setVisibility(View.INVISIBLE);
+                    percent70.setVisibility(View.INVISIBLE);
+                    percent80.setVisibility(View.INVISIBLE);
+                    percent90.setVisibility(View.INVISIBLE);
+                    percent100.setVisibility(View.INVISIBLE);
+                    latestMessage.setText(curMsg);
+                }
+                else if (val.equals("10")) {
+                    String curMsg = "Window is 10% open.";
+                    percent10.setVisibility(View.VISIBLE);
 
-                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                        percent10.setVisibility(View.INVISIBLE);
-                        percent20.setVisibility(View.INVISIBLE);
-                        percent30.setVisibility(View.INVISIBLE);
-                        percent40.setVisibility(View.INVISIBLE);
-                        percent50.setVisibility(View.INVISIBLE);
-                        percent60.setVisibility(View.INVISIBLE);
-                        percent70.setVisibility(View.INVISIBLE);
-                        percent80.setVisibility(View.INVISIBLE);
-                        percent90.setVisibility(View.INVISIBLE);
-                        percent100.setVisibility(View.INVISIBLE);
-                        latestMessage.setText(curMsg);
-                    }
-                    else if (val.equals("10")) {
-                        String curMsg = "Window is 10% open.";
-                        percent10.setVisibility(View.VISIBLE);
-
-                        checkMarkStatus.setVisibility(View.INVISIBLE);
-                        percent0.setVisibility(View.INVISIBLE);
-                        percent20.setVisibility(View.INVISIBLE);
-                        percent30.setVisibility(View.INVISIBLE);
-                        percent40.setVisibility(View.INVISIBLE);
-                        percent50.setVisibility(View.INVISIBLE);
-                        percent60.setVisibility(View.INVISIBLE);
-                        percent70.setVisibility(View.INVISIBLE);
-                        percent80.setVisibility(View.INVISIBLE);
-                        percent90.setVisibility(View.INVISIBLE);
-                        percent100.setVisibility(View.INVISIBLE);
-                        latestMessage.setText(curMsg);
-                    }
-                    else if (val.equals("20")) {
-                        String curMsg = "Window is 20% open.";
-                        percent20.setVisibility(View.VISIBLE);
+                    checkMarkStatus.setVisibility(View.INVISIBLE);
+                    percent0.setVisibility(View.INVISIBLE);
+                    percent20.setVisibility(View.INVISIBLE);
+                    percent30.setVisibility(View.INVISIBLE);
+                    percent40.setVisibility(View.INVISIBLE);
+                    percent50.setVisibility(View.INVISIBLE);
+                    percent60.setVisibility(View.INVISIBLE);
+                    percent70.setVisibility(View.INVISIBLE);
+                    percent80.setVisibility(View.INVISIBLE);
+                    percent90.setVisibility(View.INVISIBLE);
+                    percent100.setVisibility(View.INVISIBLE);
+                    latestMessage.setText(curMsg);
+                }
+                else if (val.equals("20")) {
+                    String curMsg = "Window is 20% open.";
+                    percent20.setVisibility(View.VISIBLE);
 
                     checkMarkStatus.setVisibility(View.INVISIBLE);
                     percent0.setVisibility(View.INVISIBLE);
@@ -785,13 +786,14 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
                     sockOutput = new PrintWriter(s.getOutputStream());
 
                     String stringData = "";
-                    String[] tempArr = {"", "", ""};
+                    String[] tempArr = {"", "", "","",""};
 
                     /* Updates connection visuals   */
                     updateVisuals(tempArr, 1);
 
                     float count =0;
                     float count2 = 0;
+                    //sockOutput.write("Get Status\n");
 
                     /*===========Socket Main===============*/
                     while (!end) {
@@ -821,42 +823,42 @@ public class tcpip_select extends AppCompatActivity implements View.OnClickListe
 
                         /*================  Input Checker  ================*/
                         if(stringData!= null) {
-                                if (stringData.contains("status") | stringData.contains("ACK")) {
+                            if (stringData.contains("Status") | stringData.contains("ACK")) {
+                                count = 0;
+                                //stringData = stringData.substring(1, stringData.length() - 1);
+                                status = stringData.split(":");
+                                updateVisuals(status,0);
+                                stringData=null;
+                                continue;
+                            }
+                            switch (stringData) {
+
+                                case "#":       /* NMC closed socket */
                                     count = 0;
-                                    //stringData = stringData.substring(1, stringData.length() - 1);
-                                    status = stringData.split(":");
-                                    updateVisuals(status,0);
-                                    stringData=null;
-                                    continue;
-                                }
-                                switch (stringData) {
+                                    updateVisuals(tempArr,2);
+                                    end = true;
+                                    break;
 
-                                    case "#":       /* NMC closed socket */
-                                        count = 0;
-                                        updateVisuals(tempArr,2);
-                                        end = true;
-                                        break;
-
-                                    case "$":       /* Connection check */
-                                        count = 0;
-                                        sockOutput.write("$\0");
-                                        sockOutput.flush();
-                                }
+                                case "$":       /* Connection check */
+                                    count = 0;
+                                    sockOutput.write("$\0");
+                                    sockOutput.flush();
+                            }
                         }/*====================================================*/
 
                         /*================== APP Command Check ================*/
-                            if (!command[0].equals("")) {
-                                if (command[0].equals("#\0")){ end=true; }
-                                sockOutput.write(command[0]);
-                                sockOutput.flush();
-                                command[0] = "";
-                            }/*================================================*/
-                            stringData = null;
+                        if (!command[0].equals("")) {
+                            if (command[0].equals("#\0")){ end=true; }
+                            sockOutput.write(command[0]);
+                            sockOutput.flush();
+                            command[0] = "";
+                        }/*================================================*/
+                        stringData = null;
 
-                        }
-                        sockOutput.close();
-                        s.close();
-                        ss.close();
+                    }
+                    sockOutput.close();
+                    s.close();
+                    ss.close();
 
                 } catch(IOException e){
                     e.printStackTrace();
